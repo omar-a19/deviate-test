@@ -10,7 +10,6 @@ export default defineConfig({
 
   server: {
     // SPA fallback: all routes serve index.html
-    historyApiFallback: true,
   },
 
   preview: {

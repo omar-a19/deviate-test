@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en" class="has-scroll-init has-scroll-smooth" data-scroll-direction="vertical">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Deviate — Off the Norm</title>
+    <meta name="description" content="Deviate is an independent creative and marketing agency for brands that refuse to blend in. Bold branding, advertising and film production.">
+    <meta name="robots" content="index, follow">
+    <meta property="og:url" content="https://deviate.agency">
+    <meta property="og:title" content="Deviate — Off the Norm">
+    <meta property="og:description" content="Off the norm, deviated. Creative agency specialising in bold branding and digital experiences.">
+    <meta property="og:site_name" content="Deviate Agency">
+    <meta property="og:type" content="website">
+    <link rel="icon" type="image/png" href="/icon.png" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Original site CSS — must load before React mounts -->
+    <link href="/src/assets/css/normalize.css" rel="stylesheet">
+    <link href="/src/assets/css/loconative-scroll.min.css" rel="stylesheet">
+    <link href="/src/assets/css/styleguide-v1.2.css" rel="stylesheet">
+    <link href="/src/assets/css/components-v1.2.css" rel="stylesheet">
+    <link href="/src/assets/css/style-v1.2.css" rel="stylesheet">
+  </head>
+
+  <body
+    data-barba="wrapper"
+    data-theme-page="dark"
+    data-navigation-status="not-active"
+    data-theme-nav="dark"
+  >
+    <div id="root"></div>
+
+    <!-- GSAP (must be before index.js) -->
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+    <script src="/js/ScrollTrigger.min.js"></script>
+    <script src="/js/SplitText.min.js"></script>
+    <script src="/js/index.js"></script>
+
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

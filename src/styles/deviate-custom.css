@@ -1,0 +1,177 @@
+/* ============================================================
+   DEVIATE — Brand Override CSS
+   Replaces Aanstekelijk red (#CE1B1B) with Deviate purple (#DEA3EB)
+   Font: Montserrat replaces Bulevar/Migra
+   ============================================================ */
+
+/* ── Google Font ─────────────────────────────────────────────── */
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,600;0,700;0,800;1,400&display=swap');
+
+/* ── CSS Custom Property Overrides ──────────────────────────── */
+:root {
+  --color-primary:   #DEA3EB;
+  --color-secondary: #DEA3EB;
+}
+
+/* ── Color: stroke replacements ──────────────────────────────── */
+.btn-line svg path,
+.draw-line svg path {
+  stroke: #DEA3EB !important;
+}
+
+/* ── Color: fill replacements ────────────────────────────────── */
+[fill="#CE1B1B"] { fill: #DEA3EB !important; }
+
+/* ── Color: text/border ──────────────────────────────────────── */
+.text-primary,
+.single-work-item .content h5.title,
+.footer h5,
+.navigation .col-ul li[data-link-status="active"] h3,
+.navigation .col-ul li:hover h3,
+.btn-link:hover span,
+.footer a:hover,
+.footer-tagline p {
+  color: #DEA3EB !important;
+}
+
+/* ── Color: background ───────────────────────────────────────── */
+.bg-primary { background-color: #DEA3EB !important; }
+
+/* ── Hamburger bars ──────────────────────────────────────────── */
+.hamburger .bar { background-color: #DEA3EB !important; }
+
+/* ── Font: body & UI ─────────────────────────────────────────── */
+body,
+p, a, span, li,
+.general-sans,
+input, textarea, button,
+.btn-content span {
+  font-family: 'Montserrat', sans-serif !important;
+}
+
+/* ── Font: headings ──────────────────────────────────────────── */
+h1, h2, h3,
+.bulevar, .migra,
+.bulevar.regular, .bulevar.poster,
+.migra.captials {
+  font-family: 'Montserrat', sans-serif !important;
+  font-weight: 800 !important;
+  letter-spacing: -0.02em;
+}
+
+h4, h5 {
+  font-family: 'Montserrat', sans-serif !important;
+}
+
+h4 { font-weight: 400 !important; }
+h5 { font-weight: 600 !important; }
+
+/* ── Work slider: slide width formula ────────────────────────── */
+/* Mirrors reference: --columns: 2.1 desktop / 1.6 tablet / 1.1 mobile */
+.flickity-slider-group[data-flickity-slider-type="work"] {
+  --gap: 1.25vw;
+  --columns: 2.1;
+}
+@media (max-width: 1024px) {
+  .flickity-slider-group[data-flickity-slider-type="work"] { --columns: 1.6; }
+}
+@media (max-width: 540px) {
+  .flickity-slider-group[data-flickity-slider-type="work"] { --columns: 1.1; }
+}
+
+.flickity-slide {
+  width: calc((100% / var(--columns)) - (var(--gap) * ((var(--columns) - 1) / var(--columns))));
+  margin-right: var(--gap);
+}
+
+/* Overflow visible so partial next card peeks through */
+.flickity-viewport { overflow: visible !important; }
+
+/* Keep the section itself clipped */
+.section-more-work-slider { overflow: hidden; }
+
+/* tile-inner clips the scale transform on hover */
+.tile-inner { overflow: hidden; }
+
+/* ── Page transition: Deviate branding ───────────────────────── */
+.transition-screen .fixed-background.primary {
+  background-color: #DEA3EB;
+}
+
+/* ── Custom cursor accent ────────────────────────────────────── */
+.custom-cursor[data-cursor-background="secondary"] .cursor-background,
+.custom-cursor[data-cursor-background="primary"]   .cursor-background {
+  background-color: #DEA3EB;
+}
+
+/* ── Vimeo timeline thumb ────────────────────────────────────── */
+.vimeo-timeline input[type="range"]::-webkit-slider-thumb { background-color: #DEA3EB; }
+.vimeo-timeline input[type="range"]::-moz-range-thumb    { background-color: #DEA3EB; }
+
+/* ── Contact form inputs ─────────────────────────────────────── */
+input:focus, textarea:focus {
+  border-color: #DEA3EB !important;
+  box-shadow: 0 0 0 2px rgba(222, 163, 235, 0.2);
+}
+
+/* ── Footer tagline ──────────────────────────────────────────── */
+.footer-tagline {
+  margin-top: 4rem;
+  text-align: center;
+}
+.footer-tagline p {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #DEA3EB;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+/* ── Work grid (Work page) ───────────────────────────────────── */
+.section-grid-images .row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5em;
+}
+.section-grid-images .col {
+  flex: 0 0 calc(33.333% - 1em);
+}
+@media (max-width: 1024px) {
+  .section-grid-images .col { flex: 0 0 calc(50% - 0.75em); }
+}
+@media (max-width: 600px) {
+  .section-grid-images .col { flex: 0 0 100%; }
+}
+
+/* ── Services grid ───────────────────────────────────────────── */
+.section-services .row {
+  display: flex;
+  flex-wrap: wrap;
+}
+.section-services .col {
+  flex: 0 0 calc(33.333% - var(--col-padding, 2em));
+  margin-bottom: calc(var(--col-padding, 2em) * 1.5);
+}
+@media (max-width: 900px) {
+  .section-services .col { flex: 0 0 calc(50% - var(--col-padding, 2em)); }
+}
+@media (max-width: 540px) {
+  .section-services .col { flex: 0 0 100%; }
+}
+
+/* ── Contact marquee strip ───────────────────────────────────── */
+.contact-marquee {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  transform: translateY(-50%);
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 1;
+}
+.contact-marquee h3 {
+  white-space: nowrap;
+  font-size: clamp(2rem, 6vw, 5rem);
+  color: rgba(222,163,235,0.15);
+}

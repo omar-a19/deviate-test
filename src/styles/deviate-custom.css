@@ -1,102 +1,53 @@
 /* ============================================================
-   DEVIATE — Brand Override CSS
-   Replaces Aanstekelijk red (#CE1B1B) with Deviate purple (#DEA3EB)
-   Font: Montserrat replaces Bulevar/Migra
+   DEVIATE — Brand Override & Bug-Fix CSS
    ============================================================ */
 
 /* ── Google Font ─────────────────────────────────────────────── */
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,600;0,700;0,800;1,400&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,600;0,700;0,800;1,400&display=swap');
 
-/* ── CSS Custom Property Overrides ──────────────────────────── */
+/* ── CSS Variables ───────────────────────────────────────────── */
 :root {
   --color-primary:   #DEA3EB;
   --color-secondary: #DEA3EB;
 }
 
-/* ── Color: stroke replacements ──────────────────────────────── */
-.btn-line svg path,
-.draw-line svg path {
-  stroke: #DEA3EB !important;
+/* ── Fonts ───────────────────────────────────────────────────── */
+body, p, a, span, li, input, textarea, button,
+.general-sans, .btn-content span {
+  font-family: 'Montserrat', sans-serif !important;
 }
+h1, h2, h3, h4, h5,
+.bulevar, .migra, .bulevar.regular, .bulevar.poster, .migra.captials {
+  font-family: 'Montserrat', sans-serif !important;
+  letter-spacing: -0.02em;
+}
+h1, h2, h3 { font-weight: 800 !important; }
 
-/* ── Color: fill replacements ────────────────────────────────── */
+h4          { font-weight: 400 !important; }
+h5          { font-weight: 600 !important; }
+
+/* ── Color: SVG strokes ──────────────────────────────────────── */
+.btn-line svg path,
+.draw-line svg path { stroke: #DEA3EB !important; }
+
+/* ── Color: fills ────────────────────────────────────────────── */
 [fill="#CE1B1B"] { fill: #DEA3EB !important; }
 
-/* ── Color: text/border ──────────────────────────────────────── */
+/* ── Color: text ─────────────────────────────────────────────── */
 .text-primary,
 .single-work-item .content h5.title,
 .footer h5,
+.row-credentials .col p a:hover,
 .navigation .col-ul li[data-link-status="active"] h3,
-.navigation .col-ul li:hover h3,
 .btn-link:hover span,
-.footer a:hover,
-.footer-tagline p {
-  color: #DEA3EB !important;
-}
+.footer-tagline p { color: #DEA3EB !important; }
 
 /* ── Color: background ───────────────────────────────────────── */
-.bg-primary { background-color: #DEA3EB !important; }
+.bg-primary,
+.block-vimeo-player-home .single-vimeo-player .icon { background-color: #DEA3EB !important; }
 
 /* ── Hamburger bars ──────────────────────────────────────────── */
 .hamburger .bar { background-color: #DEA3EB !important; }
-
-/* ── Font: body & UI ─────────────────────────────────────────── */
-body,
-p, a, span, li,
-.general-sans,
-input, textarea, button,
-.btn-content span {
-  font-family: 'Montserrat', sans-serif !important;
-}
-
-/* ── Font: headings ──────────────────────────────────────────── */
-h1, h2, h3,
-.bulevar, .migra,
-.bulevar.regular, .bulevar.poster,
-.migra.captials {
-  font-family: 'Montserrat', sans-serif !important;
-  font-weight: 800 !important;
-  letter-spacing: -0.02em;
-}
-
-h4, h5 {
-  font-family: 'Montserrat', sans-serif !important;
-}
-
-h4 { font-weight: 400 !important; }
-h5 { font-weight: 600 !important; }
-
-/* ── Work slider: slide width formula ────────────────────────── */
-/* Mirrors reference: --columns: 2.1 desktop / 1.6 tablet / 1.1 mobile */
-.flickity-slider-group[data-flickity-slider-type="work"] {
-  --gap: 1.25vw;
-  --columns: 2.1;
-}
-@media (max-width: 1024px) {
-  .flickity-slider-group[data-flickity-slider-type="work"] { --columns: 1.6; }
-}
-@media (max-width: 540px) {
-  .flickity-slider-group[data-flickity-slider-type="work"] { --columns: 1.1; }
-}
-
-.flickity-slide {
-  width: calc((100% / var(--columns)) - (var(--gap) * ((var(--columns) - 1) / var(--columns))));
-  margin-right: var(--gap);
-}
-
-/* Overflow visible so partial next card peeks through */
-.flickity-viewport { overflow: visible !important; }
-
-/* Keep the section itself clipped */
-.section-more-work-slider { overflow: hidden; }
-
-/* tile-inner clips the scale transform on hover */
-.tile-inner { overflow: hidden; }
-
-/* ── Page transition: Deviate branding ───────────────────────── */
-.transition-screen .fixed-background.primary {
-  background-color: #DEA3EB;
-}
 
 /* ── Custom cursor accent ────────────────────────────────────── */
 .custom-cursor[data-cursor-background="secondary"] .cursor-background,
@@ -106,72 +57,251 @@ h5 { font-weight: 600 !important; }
 
 /* ── Vimeo timeline thumb ────────────────────────────────────── */
 .vimeo-timeline input[type="range"]::-webkit-slider-thumb { background-color: #DEA3EB; }
-.vimeo-timeline input[type="range"]::-moz-range-thumb    { background-color: #DEA3EB; }
+.vimeo-timeline input[type="range"]::-moz-range-thumb     { background-color: #DEA3EB; }
 
-/* ── Contact form inputs ─────────────────────────────────────── */
-input:focus, textarea:focus {
-  border-color: #DEA3EB !important;
-  box-shadow: 0 0 0 2px rgba(222, 163, 235, 0.2);
+/* ==============================================================
+   BUG FIXES
+   ============================================================== */
+
+/* ── FIX 1: Showreel full width ──────────────────────────────── */
+/* The .container.large wrapper already goes to the edge of padding.
+   Ensure single-vimeo-player fills 100% of its container. */
+.block-vimeo-player-home .container.large {
+  /* Remove any max-width cap so the player is truly wide */
+  max-width: 100vw;
+}
+.block-vimeo-player-home .single-vimeo-player {
+  border-radius: 0; /* Edge-to-edge on homepage */
 }
 
-/* ── Footer tagline ──────────────────────────────────────────── */
+/* ── FIX 2: Client Marquee visibility ───────────────────────── */
+/* The marquee items are absolutely zero-opacity by default because
+   their <span> labels are hidden and only SVG/img shows.
+   We show the text as fallback when there's no logo image. */
+.section-clients-marquee .marquee-item span {
+  /* Override: make visible since we use text-only placeholders */
+  position: static !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+  font-size: 0.85em;
+  font-weight: 600;
+  white-space: nowrap;
+  color: rgba(255,255,255,0.5);
+}
+.section-clients-marquee .marquee-item svg {
+  /* Placeholder dot icon */
+  flex-shrink: 0;
+  opacity: 0.3;
+  max-width: 2em !important;
+  max-height: 2em !important;
+}
+
+/* ── FIX 3: Work Slider — slides on same horizontal line ──────── */
+/* The .flickity-carousel gets display:block by CSS (removes flex)
+   so Flickity can control it. The .flickity-viewport clips it.
+   The key fix: slides must be display:block with correct width.
+   The width formula comes from components CSS and uses --columns / --gap.
+   We just need to ensure overflow is visible for peek-through. */
+.flickity-slider-group[data-flickity-slider-type="work"] .flickity-viewport {
+  overflow: visible !important;
+}
+.section-more-work-slider {
+  overflow: hidden; /* clip the peek-through at section boundary */
+}
+/* Force slides to never stack — they must be block, not flex items */
+.flickity-slider-group[data-flickity-slider-type="work"] .flickity-slide {
+  display: block !important;
+  position: absolute; /* Flickity positions slides absolutely — this is correct */
+}
+/* The .tile-inner should clip hover scale */
+.single-work-item .tile-inner { overflow: hidden; }
+
+/* ── FIX 4: SVG draw-line ────────────────────────────────────── */
+/* The path starts at dashoffset = length and animates to 0.
+   We set the initial state in CSS; GSAP animates to 0. */
+.section-intro .draw-line {
+  opacity: 0; /* GSAP will fade it in */
+}
+.section-intro .draw-line svg path {
+  stroke-dasharray: var(--svg-path-length, 399) var(--svg-path-length, 399);
+  stroke-dashoffset: var(--svg-path-length, 399);
+  transition: none; /* Let GSAP own this */
+}
+
+/* ── FIX 5: Footer h3 not overlapping h4 ─────────────────────── */
+/* The footer first row uses split layout — both cols are flex children.
+   No overlap should occur with correct flex; just ensure the col gap. */
+.footer .row:nth-child(1) {
+  align-items: flex-start;
+  gap: var(--col-padding);
+}
+.footer .row:nth-child(1) .col:nth-child(1) {
+  flex: 1 1 auto;
+}
+.footer .row:nth-child(1) .col:nth-child(2) {
+  flex: 0 0 auto;
+}
+
+/* ── FIX 6: Footer tagline style ────────────────────────────────*/
 .footer-tagline {
-  margin-top: 4rem;
+  margin-top: 3rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--color-border, rgba(255,255,255,0.1));
   text-align: center;
 }
 .footer-tagline p {
-  font-size: 1.1rem;
-  font-weight: 700;
-  color: #DEA3EB;
-  letter-spacing: 0.12em;
+  font-size: 0.8rem !important;
+  font-weight: 700 !important;
+  color: #DEA3EB !important;
+  letter-spacing: 0.15em;
   text-transform: uppercase;
 }
 
+/* ── FIX 7: Contact form inputs ──────────────────────────────── */
+input:focus, textarea:focus {
+  border-color: #DEA3EB !important;
+  box-shadow: 0 0 0 2px rgba(222, 163, 235, 0.2);
+  outline: none;
+}
+
+/* ── Page transition word cycling ────────────────────────────── */
+.transition-container .transition-words {
+  display: flex; /* Override display:none — React controls visibility via data attr */
+}
+/* Only show the active word */
+.transition-container .transition-screen-inner .single-word {
+  display: none;
+}
+.transition-container .transition-screen-inner .single-word[data-transition-word-status="active"] {
+  display: flex;
+}
+
+/* ── Services grid (Services page) ───────────────────────────── */
+.section-services-grid {
+  padding-top: 0;
+}
+.section-services-grid .col {
+  border-top: 1px solid var(--color-border, rgba(255,255,255,0.1));
+  padding-top: calc(var(--section-padding) * 0.5);
+}
+
 /* ── Work grid (Work page) ───────────────────────────────────── */
-.section-grid-images .row {
+.work-grid .row {
   display: flex;
   flex-wrap: wrap;
   gap: 1.5em;
 }
-.section-grid-images .col {
+.work-grid .col {
   flex: 0 0 calc(33.333% - 1em);
 }
-@media (max-width: 1024px) {
-  .section-grid-images .col { flex: 0 0 calc(50% - 0.75em); }
-}
-@media (max-width: 600px) {
-  .section-grid-images .col { flex: 0 0 100%; }
-}
+@media (max-width: 1024px) { .work-grid .col { flex: 0 0 calc(50% - 0.75em); } }
+@media (max-width: 600px)  { .work-grid .col { flex: 0 0 100%; } }
 
-/* ── Services grid ───────────────────────────────────────────── */
-.section-services .row {
-  display: flex;
-  flex-wrap: wrap;
-}
-.section-services .col {
-  flex: 0 0 calc(33.333% - var(--col-padding, 2em));
-  margin-bottom: calc(var(--col-padding, 2em) * 1.5);
-}
-@media (max-width: 900px) {
-  .section-services .col { flex: 0 0 calc(50% - var(--col-padding, 2em)); }
-}
-@media (max-width: 540px) {
-  .section-services .col { flex: 0 0 100%; }
-}
+/* ==============================================================
+   MARQUEE — Pure CSS infinite scroll
+   ============================================================== */
 
-/* ── Contact marquee strip ───────────────────────────────────── */
-.contact-marquee {
-  position: absolute;
-  top: 50%;
-  left: 0;
-  right: 0;
-  transform: translateY(-50%);
+.marquee-scroll-css {
   overflow: hidden;
-  pointer-events: none;
-  z-index: 1;
+  width: 100%;
 }
-.contact-marquee h3 {
+
+.marquee-track {
+  display: flex;
+  flex-wrap: nowrap;
+  width: max-content;
+  animation: marquee-scroll 30s linear infinite;
+}
+
+/* Pause on hover */
+.marquee:hover .marquee-track {
+  animation-play-state: paused;
+}
+
+@keyframes marquee-scroll {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-33.333%); /* 3 copies → move 1/3 */ }
+}
+
+.marquee-client-name {
+  font-size: 0.75rem !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.45) !important;
   white-space: nowrap;
-  font-size: clamp(2rem, 6vw, 5rem);
-  color: rgba(222,163,235,0.15);
+  opacity: 1 !important;
+  visibility: visible !important;
+  position: static !important;
+}
+
+/* Separator dot between items */
+.section-clients-marquee .marquee-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75em;
+  padding: 0 2.5vw;
+  position: relative;
+}
+.section-clients-marquee .marquee-item::after {
+  content: '·';
+  color: #DEA3EB;
+  font-size: 1.5em;
+  opacity: 0.5;
+  flex-shrink: 0;
+}
+
+/* ==============================================================
+   WORK SINGLE PAGE
+   ============================================================== */
+
+.work-single-intro .col-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: calc(var(--row-padding) * 1.5);
+}
+
+.work-single-intro .services h5 {
+  margin-bottom: 0.4em;
+  color: #DEA3EB;
+  font-size: 0.75em;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.block-images .flickity-slide figure {
+  margin: 0;
+}
+
+.block-textarea .container.small.center {
+  text-align: center;
+}
+.block-textarea .row-title .col {
+  width: 100%;
+}
+.block-textarea .row-content .col {
+  width: 100%;
+  max-width: 50em;
+  margin: 0 auto;
+}
+.block-textarea h4 {
+  margin-bottom: 1em;
+}
+
+/* ==============================================================
+   PAGE TRANSITION — intro loader always visible on top
+   ============================================================== */
+.transition-container[data-transition-status="loading"] {
+  pointer-events: all;
+  z-index: 9999;
+}
+.transition-container[data-transition-status="transition"] {
+  pointer-events: none;
+  z-index: 9999;
+}
+
+/* The words div — always flex so single-word visibility works */
+.transition-container .transition-words {
+  display: flex !important;
+  pointer-events: none;
 }

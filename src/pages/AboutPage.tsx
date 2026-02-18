@@ -1,7 +1,6 @@
 import { useLocomotiveScroll } from '../hooks/useLocomotiveScroll';
 import Navigation from '../components/layout/Navigation';
 import Footer from '../components/layout/Footer';
-import PageTransition from '../components/Pagetransition';
 import CustomCursor from '../components/ui/CustomCursor';
 import { TEAM, SERVICES, SITE } from '../components/data/siteData';
 import { splitChars, PrimaryButton } from '../components/ui/shared';
@@ -14,7 +13,6 @@ export default function AboutPage() {
 
   return (
     <>
-      <PageTransition />
       <CustomCursor />
       <main className="main" data-barba="container" data-barba-namespace="about">
         <div className="fixed-background dark"><div className="texture" /></div>
@@ -26,7 +24,6 @@ export default function AboutPage() {
             className="section about-header"
             data-theme-section="dark"
             data-scroll-section=""
-            style={{ overflow: 'hidden', position: 'relative', minHeight: '70vh', display: 'flex', alignItems: 'center' }}
           >
             <div className="fixed-background dark"><div className="texture" /></div>
             <div className="overlay a-shape-pattern" />
@@ -98,7 +95,7 @@ export default function AboutPage() {
           <ShowreelPlayer vimeoId={SITE.vimeoId} poster="/bg1.png" />
 
           {/* ── Founders / Team ──────────────────────────────────── */}
-          {/* <section
+          <section
             className="section section-founders"
             data-theme-section="dark"
             data-scroll-section=""
@@ -134,7 +131,7 @@ export default function AboutPage() {
                 ))}
               </div>
             </div>
-          </section> */}
+          </section>
 
           {/* ── Stats ─────────────────────────────────────────────── */}
           <section
@@ -142,7 +139,7 @@ export default function AboutPage() {
             data-theme-section="dark"
             data-scroll-section=""
           >
-            <div className="container center pt-6">
+            <div className="container center">
               <div className="row">
                 {[
                   { number: '50+', label: 'Brands deviated' },

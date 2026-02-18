@@ -22,7 +22,7 @@ export interface WorkItem {
   title: string;
   client: string;
   href: string;
-  image: string;          // fallback colour or real image path
+  image: string;          
   videoSrc: string | null;
   tags: string[];
   featured?: boolean;
@@ -130,28 +130,28 @@ export interface Service {
 
 export const SERVICES: Service[] = [
   {
-    title:       'Brand Strategy',
-    description: 'We dig deep into your brand&#39;s DNA to build a strategy that sets you apart — and keeps you there.',
+    title:       'ACCOUNT MANAGEMENT',
+    description: "Day-to-day management, coordination, and client communication.",
   },
   {
-    title:       'Visual Identity',
-    description: 'Logos, typography, colour systems, and everything in between — we build identities that refuse to blend in.',
+    title:       'SOCIAL MEDIA MANAGEMENT',
+    description: 'Content planning, scheduling, publishing, and page optimization.',
   },
   {
-    title:       'Campaign & Advertising',
-    description: 'From big TV spots to social-first content, we make campaigns that stop the scroll and move the needle.',
+    title:       'PERFORMANCE MONITORING & REPORTING',
+    description: 'Tracking results, insights, and monthly performance reports.',
   },
   {
-    title:       'Digital Design',
-    description: 'Websites, apps, and digital experiences that look as bold as your brand deserves.',
+    title:       'CONTENT STRATEGY & DIRECTION',
+    description: 'Defining what to post, how to say it, and when it goes live.',
   },
   {
-    title:       'Film Production',
-    description: 'We write, direct, shoot and edit — full production in-house for razor-sharp creative control.',
+    title:       'MEDIA BUYING & ADS MANAGEMENT',
+    description: 'Paid campaigns across Meta platforms, planning, execution, and optimization.',
   },
   {
-    title:       'Content & Social',
-    description: 'A content engine built on insight, ideas and the relentless pursuit of engagement.',
+    title:       'CAMPAIGN PLANNING & EXECUTION',
+    description: 'Launches, seasonal pushes, and performance-driven campaigns.',
   },
 ];
 
@@ -165,16 +165,16 @@ export interface TeamMember {
 }
 
 export const TEAM: TeamMember[] = [
-  { name: 'Ahmed Hassan',   role: 'Co-Founder & Creative Director' },
-  { name: 'Sara Khalil',    role: 'Co-Founder & Strategy Director'  },
-  { name: 'Omar Mostafa',   role: 'Head of Production'              },
+  { name: 'member name',   role: 'role' },
+  { name: 'member name',    role: 'role'  },
+  { name: 'member name',   role: 'role'              },
 ];
 
 // ─── Site config ─────────────────────────────────────────────────────────────
 
 export const SITE = {
   name:        'Deviate',
-  tagline:     'Off the Norm.',
+  tagline:     'Off the Norm,',
   description: 'Deviate is an independent creative and marketing agency for brands that refuse to blend in.',
   address:     '123 Maadi, Cairo, Egypt',
   phone:       '+20 12 365 874',

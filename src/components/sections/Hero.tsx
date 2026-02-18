@@ -63,23 +63,24 @@ export default function Hero() {
     >
       {/* ================= BACKGROUND VIDEO ================= */}
       <div
-        className="single-vimeo-background is-inview"
+        className="single-vimeo-background"
         id="vimeo-background-index-custom-1"
         data-scroll-speed="2"
         data-scroll-position="top"
         data-vimeo-background-target
-        data-vimeo-status-sync="true"
-        data-vimeo-status-activated="true"
-        data-vimeo-status-loaded="true"
+        data-vimeo-status-activated="false"
+        data-vimeo-status-loaded="false"
         data-vimeo-status-muted="true"
       >
         <iframe
-          src="https://player.vimeo.com/video/883255612?h=409c8fe0a7?api=1&background=1&autoplay=1&loop=1&autopause=0"
-          width="640"
-          height="360"
+          src="https://player.vimeo.com/video/883255612?background=1&autoplay=1&loop=1&autopause=0&muted=1"
           frameBorder="0"
           allow="autoplay; encrypted-media"
           allowFullScreen
+          onLoad={(e) => {
+            const el = (e.target as HTMLIFrameElement).closest('[data-vimeo-status-loaded]') as HTMLElement;
+            if (el) { el.dataset.vimeoStatusActivated = 'true'; el.dataset.vimeoStatusLoaded = 'true'; }
+          }}
         />
 
         <picture className="overlay vimeo-overlay-placeholder placeholder-desktop">
@@ -88,7 +89,7 @@ export default function Hero() {
             srcSet="/bg1.png"
           />
           <img
-            src="/bg1.png"
+            src="/bg2.png"
             alt=""
             width="1920"
             height="1080"
@@ -117,24 +118,24 @@ export default function Hero() {
       <div className="shape-polygon">
         <div className="shape-polygon-inner">
           <div
-            className="single-vimeo-background is-inview"
+            className="single-vimeo-background"
             id="vimeo-background-index-custom-2"
-            data-scroll
-            data-scroll-speed="-4"
+            data-scroll-speed="2"
             data-scroll-position="top"
             data-vimeo-background-target
-            data-vimeo-status-sync="true"
-            data-vimeo-status-activated="true"
-            data-vimeo-status-loaded="true"
+            data-vimeo-status-activated="false"
+            data-vimeo-status-loaded="false"
             data-vimeo-status-muted="true"
           >
             <iframe
-              src="https://player.vimeo.com/video/883255612?h=409c8fe0a7?api=1&background=1&autoplay=1&loop=1&autopause=0"
-              width="640"
-              height="360"
+              src="https://player.vimeo.com/video/883255612?background=1&autoplay=1&loop=1&autopause=0&muted=1"
               frameBorder="0"
               allow="autoplay; encrypted-media"
               allowFullScreen
+              onLoad={(e) => {
+                const el = (e.target as HTMLIFrameElement).closest('[data-vimeo-status-loaded]') as HTMLElement;
+                if (el) { el.dataset.vimeoStatusActivated = 'true'; el.dataset.vimeoStatusLoaded = 'true'; }
+              }}
             />
 
             <picture className="overlay vimeo-overlay-placeholder placeholder-desktop">

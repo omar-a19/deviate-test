@@ -1,93 +1,104 @@
 import { useEffect, useRef } from 'react';
-import 'flickity/css/flickity.css';
-import Flickity from 'flickity';
-import LazyLoad from 'vanilla-lazyload';
 import { WORK_ITEMS } from '../data/siteData';
 
-declare global { interface Window { Flickity: typeof Flickity; } }
-window.Flickity = Flickity;
+declare global {
+  interface Window { Flickity: any; }
+}
 
 const TINY = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7';
 
-function srcset(base: string, fmt: 'jpg' | 'webp') {
-  const s = base.replace(/\.(jpg|png|webp)$/, '');
-  return [400, 540, 720, 1080].map(w => `${s}-${w}x-q72.${fmt} ${w}w`).join(', ');
-}
-
 export default function WorkSlider() {
   const sectionRef = useRef<HTMLElement>(null);
-  const flktyRef   = useRef<Flickity | null>(null);
 
   useEffect(() => {
     const section = sectionRef.current;
     if (!section) return;
 
-    // ── Flickity ─────────────────────────────────────────────────────
-    // watchCSS MUST be false — the project has no .flickity-carousel::after
-    // content:"flickity" rule, so watchCSS silently destroys the instance.
     const carousel = section.querySelector<HTMLElement>('.flickity-carousel');
-    if (carousel) {
-      flktyRef.current = new Flickity(carousel, {
-        watchCSS:           false,   // ← critical fix
-        contain:            true,
-        wrapAround:         false,
-        dragThreshold:      10,
-        prevNextButtons:    false,
-        pageDots:           false,
-        cellAlign:          'left',
+    if (!carousel) return;
+
+    // Dynamically import Flickity so it only runs client-side
+    import('flickity').then(({ default: Flickity }) => {
+      // The CSS sets content:"flickity" on ::after which watchCSS reads.
+      // We use watchCSS:true so it matches the original index.js behavior.
+      const flkty = new Flickity(carousel, {
+        watchCSS: true,   // respects .flickity-carousel::after { content: "flickity" }
+        contain: true,
+        wrapAround: false,
+        dragThreshold: 10,
+        prevNextButtons: false,
+        pageDots: false,
+        cellAlign: 'left',
         selectedAttraction: 0.015,
-        friction:           0.25,
-        percentPosition:    true,
-        freeScroll:         false,
+        friction: 0.25,
+        percentPosition: true,
+        freeScroll: false,
         on: {
-          dragStart: () => {
+          dragStart() {
             const sl = carousel.querySelector<HTMLElement>('.flickity-slider');
             if (sl) sl.style.pointerEvents = 'none';
+            // Show "Drag" bubble on drag
+            const cursor = document.querySelector('[data-cursor-status-drag]') as HTMLElement;
+            const bubble = document.querySelector('[data-cursor-bubble]') as HTMLElement;
+            if (cursor) cursor.dataset.cursorStatusDrag = 'active';
+            if (bubble) bubble.setAttribute('data-cursor-bubble', 'active');
           },
-          dragEnd: () => {
+          dragEnd() {
             const sl = carousel.querySelector<HTMLElement>('.flickity-slider');
             if (sl) sl.style.pointerEvents = '';
+            const cursor = document.querySelector('[data-cursor-status-drag]') as HTMLElement;
+            const bubble = document.querySelector('[data-cursor-bubble]') as HTMLElement;
+            if (cursor) cursor.dataset.cursorStatusDrag = 'not-active';
+            if (bubble) bubble.setAttribute('data-cursor-bubble', 'not-active');
           },
         },
       });
-    }
 
-    // ── LazyLoad ─────────────────────────────────────────────────────
-    const scrollEl = document.querySelector<HTMLElement>('[data-scroll-container]');
-    const lazyLoad = new LazyLoad({
-      container: scrollEl ?? document.documentElement,
-      elements_selector: '.lazy',
-    });
+      // Show "Drag" cursor when hovering the slider area (not on a specific slide)
+      const sliderGroup = section.querySelector<HTMLElement>('[data-flickity-slider-type="work"]');
+      const handleSliderEnter = () => {
+        const cursor = document.querySelector('[data-cursor-status-move]') as HTMLElement;
+        if (cursor) cursor.dataset.cursorStatusMove = 'active';
+      };
+      const handleSliderLeave = () => {
+        const cursor = document.querySelector('[data-cursor-status-move]') as HTMLElement;
+        if (cursor) cursor.dataset.cursorStatusMove = 'not-active';
+      };
+      sliderGroup?.addEventListener('mousemove', handleSliderEnter);
+      sliderGroup?.addEventListener('mouseleave', handleSliderLeave);
 
-    // ── Video hover ───────────────────────────────────────────────────
-    const videoItems = section.querySelectorAll<HTMLElement>('[data-thumb-video-on-hover="true"]');
-    const onEnter = (e: Event) => {
-      const el = e.currentTarget as HTMLElement;
-      const v  = el.querySelector<HTMLVideoElement>('video');
-      if (!v) return;
-      el.dataset.thumbVideoStatus = 'active';
-      v.load(); v.play().catch(() => {});
-    };
-    const onLeave = (e: Event) => {
-      const el = e.currentTarget as HTMLElement;
-      const v  = el.querySelector<HTMLVideoElement>('video');
-      if (!v) return;
-      el.dataset.thumbVideoStatus = 'not-active';
-      v.pause();
-    };
-    videoItems.forEach(el => {
-      el.addEventListener('mouseenter', onEnter);
-      el.addEventListener('mouseleave', onLeave);
-    });
-
-    return () => {
-      flktyRef.current?.destroy();
-      lazyLoad.destroy();
+      // Video hover per slide
+      const videoItems = section.querySelectorAll<HTMLElement>('[data-thumb-video-on-hover="true"]');
+      const onEnter = (e: Event) => {
+        const el = e.currentTarget as HTMLElement;
+        el.dataset.thumbVideoStatus = 'active';
+        el.querySelector<HTMLVideoElement>('video')?.play().catch(() => {});
+      };
+      const onLeave = (e: Event) => {
+        const el = e.currentTarget as HTMLElement;
+        el.dataset.thumbVideoStatus = 'not-active';
+        el.querySelector<HTMLVideoElement>('video')?.pause();
+      };
       videoItems.forEach(el => {
-        el.removeEventListener('mouseenter', onEnter);
-        el.removeEventListener('mouseleave', onLeave);
+        el.addEventListener('mouseenter', onEnter);
+        el.addEventListener('mouseleave', onLeave);
       });
-    };
+
+      // Lazy-load images inside slider
+      import('vanilla-lazyload').then(({ default: LazyLoad }) => {
+        new LazyLoad({ container: section, elements_selector: '.lazy' });
+      });
+
+      return () => {
+        flkty.destroy();
+        sliderGroup?.removeEventListener('mousemove', handleSliderEnter);
+        sliderGroup?.removeEventListener('mouseleave', handleSliderLeave);
+        videoItems.forEach(el => {
+          el.removeEventListener('mouseenter', onEnter);
+          el.removeEventListener('mouseleave', onLeave);
+        });
+      };
+    });
   }, []);
 
   return (
@@ -99,9 +110,12 @@ export default function WorkSlider() {
     >
       <div className="container large">
         <div
-          className={`flickity-slider-group count-${WORK_ITEMS.length}`}
+          className="flickity-slider-group"
           data-flickity-slider-type="work"
           id="flickity-slider-type-work-id-0"
+          // Slider area shows "Drag" cursor by default
+          data-cursor-bubble-text="Drag"
+          data-cursor-bubble-color="secondary"
         >
           <ul className="flickity-carousel" tabIndex={0}>
             {WORK_ITEMS.map((item, i) => (
@@ -109,40 +123,29 @@ export default function WorkSlider() {
                 key={i}
                 className="flickity-slide"
                 data-flickity-slide-count={i}
-                data-cursor-bubble-text="View"
-                data-cursor-bubble-color="secondary"
               >
+                {/* Each slide shows "View" when hovered */}
                 <a
                   className="single-work-item"
                   href={item.href}
                   data-transition-text={item.client}
                   data-thumb-video-on-hover="true"
                   data-thumb-video-status="not-active"
+                  data-cursor-bubble-text="View"
+                  data-cursor-bubble-color="secondary"
                 >
                   <div className="overlay tile">
                     <div className="overlay tile-inner">
                       <picture className="overlay">
-                        <source type="image/webp" data-srcset={srcset(item.image, 'webp')} />
                         <img
                           alt={item.client}
                           className="lazy"
-                          width={1080} height={810}
+                          width={1080}
+                          height={810}
                           src={TINY}
                           data-src={item.image}
-                          data-srcset={srcset(item.image, 'jpg')}
                         />
                       </picture>
-                      {item.videoSrc && (
-                        <video
-                          className="overlay lazy"
-                          muted loop playsInline
-                          data-src={item.videoSrc}
-                          data-poster={item.image}
-                          poster={TINY}
-                        >
-                          <source type="video/mp4" data-src={item.videoSrc} />
-                        </video>
-                      )}
                       <div className="overlay overlay-dark" />
                     </div>
                   </div>

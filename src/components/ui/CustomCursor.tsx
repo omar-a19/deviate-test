@@ -9,11 +9,9 @@ export default function CustomCursor() {
     const cursor = cursorRef.current;
     if (!cursor) return;
 
-    let currentX = 0;
-    let currentY = 0;
-    let targetX = 0;
-    let targetY = 0;
+    let currentX = 0, currentY = 0, targetX = 0, targetY = 0;
     const ease = 0.15;
+    let raf: number;
 
     const onMouseMove = (e: MouseEvent) => {
       targetX = e.clientX;
@@ -23,85 +21,83 @@ export default function CustomCursor() {
     const animate = () => {
       currentX += (targetX - currentX) * ease;
       currentY += (targetY - currentY) * ease;
-      
       cursor.style.transform = `translate(${currentX}px, ${currentY}px)`;
-      requestAnimationFrame(animate);
+      raf = requestAnimationFrame(animate);
     };
 
-    const handleElementHover = (e: Event) => {
-      const target = e.currentTarget as HTMLElement;
-      const bubbleText = target.dataset.cursorBubbleText;
-      const bubbleColor = target.dataset.cursorBubbleColor;
-      const gifTarget = target.dataset.cursorGifTarget;
-
+    // Text + color bubble
+    const onBubbleEnter = (e: Event) => {
+      const el = e.currentTarget as HTMLElement;
+      const text = el.dataset.cursorBubbleText;
+      const color = el.dataset.cursorBubbleColor;
       cursor.dataset.cursorBubble = 'active';
-      
-      if (bubbleText && bubbleTextRef.current) {
-        bubbleTextRef.current.textContent = bubbleText;
-      }
-      
-      if (bubbleColor) {
-        cursor.dataset.cursorBackground = bubbleColor;
-      }
-
-      if (gifTarget && gifOverlaysRef.current) {
-        cursor.dataset.cursorGif = 'active';
-        const gifs = gifOverlaysRef.current.querySelectorAll('.single-gif');
-        gifs.forEach(gif => {
-          if (gif.getAttribute('data-cursor-gif-id') === gifTarget) {
-            gif.classList.add('active');
-            const video = gif.querySelector('video');
-            if (video) video.play();
-          } else {
-            gif.classList.remove('active');
-            const video = gif.querySelector('video');
-            if (video) video.pause();
-          }
-        });
-      }
+      if (text && bubbleTextRef.current) bubbleTextRef.current.textContent = text;
+      if (color) cursor.dataset.cursorBackground = color;
     };
-
-    const handleElementLeave = () => {
+    const onBubbleLeave = () => {
       cursor.dataset.cursorBubble = 'not-active';
-      cursor.dataset.cursorGif = 'not-active';
       cursor.dataset.cursorBackground = 'primary';
-      
-      if (gifOverlaysRef.current) {
-        const gifs = gifOverlaysRef.current.querySelectorAll('.single-gif');
-        gifs.forEach(gif => {
-          gif.classList.remove('active');
-          const video = gif.querySelector('video');
-          if (video) video.pause();
-        });
-      }
+      // Restore default text
+      if (bubbleTextRef.current) bubbleTextRef.current.textContent = 'Scroll';
     };
 
-    const attachHoverListeners = () => {
-      const hoverElements = document.querySelectorAll('[data-cursor-bubble-text], [data-cursor-gif-target]');
-      hoverElements.forEach(el => {
-        el.addEventListener('mouseenter', handleElementHover);
-        el.addEventListener('mouseleave', handleElementLeave);
+    // GIF bubble
+    const onGifEnter = (e: Event) => {
+      const el = e.currentTarget as HTMLElement;
+      const gifId = el.dataset.cursorGifTarget;
+      if (!gifId || !gifOverlaysRef.current) return;
+      cursor.dataset.cursorGif = 'active';
+      gifOverlaysRef.current.querySelectorAll<HTMLElement>('.single-gif').forEach(gif => {
+        const isTarget = gif.dataset.cursorGifId === gifId;
+        gif.classList.toggle('active', isTarget);
+        const v = gif.querySelector('video');
+        if (isTarget) v?.play().catch(() => {});
+        else { v?.pause(); }
+      });
+    };
+    const onGifLeave = () => {
+      cursor.dataset.cursorGif = 'not-active';
+      gifOverlaysRef.current?.querySelectorAll<HTMLElement>('.single-gif').forEach(gif => {
+        gif.classList.remove('active');
+        gif.querySelector('video')?.pause();
+      });
+    };
+
+    // Attach all listeners; re-run when DOM changes
+    const attach = () => {
+      document.querySelectorAll<HTMLElement>('[data-cursor-bubble-text]').forEach(el => {
+        el.removeEventListener('mouseenter', onBubbleEnter);
+        el.removeEventListener('mouseleave', onBubbleLeave);
+        el.addEventListener('mouseenter', onBubbleEnter);
+        el.addEventListener('mouseleave', onBubbleLeave);
+      });
+      document.querySelectorAll<HTMLElement>('[data-cursor-gif-target]').forEach(el => {
+        el.removeEventListener('mouseenter', onGifEnter);
+        el.removeEventListener('mouseleave', onGifLeave);
+        el.addEventListener('mouseenter', onGifEnter);
+        el.addEventListener('mouseleave', onGifLeave);
       });
     };
 
     window.addEventListener('mousemove', onMouseMove);
-    animate();
-    attachHoverListeners();
+    raf = requestAnimationFrame(animate);
+    attach();
     cursor.dataset.cursorInit = 'true';
 
-    const observer = new MutationObserver(attachHoverListeners);
+    const observer = new MutationObserver(attach);
     observer.observe(document.body, { childList: true, subtree: true });
 
     return () => {
       window.removeEventListener('mousemove', onMouseMove);
+      cancelAnimationFrame(raf);
       observer.disconnect();
     };
   }, []);
 
   return (
-    <div 
+    <div
       ref={cursorRef}
-      className="custom-cursor" 
+      className="custom-cursor"
       data-cursor-init="false"
       data-cursor-bubble="not-active"
       data-cursor-gif="not-active"
@@ -110,15 +106,16 @@ export default function CustomCursor() {
       data-cursor-status-drag="not-active"
     >
       <div className="cursor-bubble">
-        <div className="cursor-before"></div>
-        <div className="cursor-background"></div>
-        <span ref={bubbleTextRef} className="cursor-text">Scroll</span>
+        <div className="cursor-before" />
+        <div className="cursor-background" />
+        {/* cursor-text shows bubble label; cursor-text-drag shows "Drag" during drag */}
+        <span ref={bubbleTextRef} className="cursor-text">Drag</span>
         <span className="cursor-text-drag">Drag</span>
       </div>
-      <div className="cursor-drag-dot left"></div>
-      <div className="cursor-drag-dot right"></div>
+      <div className="cursor-drag-dot left" />
+      <div className="cursor-drag-dot right" />
       <div ref={gifOverlaysRef} className="cursor-gif">
-        <div className="cursor-before"></div>
+        <div className="cursor-before" />
         <div className="overlay single-gif" data-cursor-gif-id="file://deviate-1">
           <video className="overlay" muted loop playsInline>
             <source type="video/mp4" src="/videos/deviate-intro.mp4" />

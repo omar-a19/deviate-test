@@ -1,7 +1,6 @@
 import { useLocomotiveScroll } from '../hooks/useLocomotiveScroll';
 import Navigation from '../components/layout/Navigation';
 import Footer from '../components/layout/Footer';
-import PageTransition from '../components/Pagetransition';
 import CustomCursor from '../components/ui/CustomCursor';
 import { WORK_ITEMS } from '../components/data/siteData';
 import { splitChars } from '../components/ui/shared';
@@ -17,7 +16,6 @@ export default function WorkPage() {
 
   return (
     <>
-      <PageTransition />
       <CustomCursor />
       <main className="main" data-barba="container" data-barba-namespace="work">
         <div className="fixed-background dark"><div className="texture" /></div>

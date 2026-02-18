@@ -64,14 +64,14 @@ export default function Navigation({ currentPath }: NavigationProps) {
           </div>
           <div className="bottom-links">
             <div className="btn btn-link" data-button-status="">
-              <a href="/terms" className="btn-click" data-transition-text="Terms">
-                <div className="btn-content"><span>Terms & Conditions</span></div>
+              <a href="/work" className="btn-click" data-transition-text="Our Work" onClick={() => setIsOpen(false)}>
+                <div className="btn-content"><span>Our Work</span></div>
                 <BtnLines />
               </a>
             </div>
             <div className="btn btn-link" data-button-status="">
-              <a href="/privacy" className="btn-click" data-transition-text="Privacy">
-                <div className="btn-content"><span>Privacy Policy</span></div>
+              <a href="/about" className="btn-click" data-transition-text="Our Story" onClick={() => setIsOpen(false)}>
+                <div className="btn-content"><span>Our Story</span></div>
                 <BtnLines />
               </a>
             </div>

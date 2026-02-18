@@ -1,7 +1,6 @@
 import { useLocomotiveScroll } from '../hooks/useLocomotiveScroll';
 import Navigation from '../components/layout/Navigation';
 import Footer from '../components/layout/Footer';
-import PageTransition from '../components/Pagetransition';
 import CustomCursor from '../components/ui/CustomCursor';
 import { SERVICES } from '../components/data/siteData';
 import { splitChars, PrimaryButton } from '../components/ui/shared';
@@ -12,7 +11,6 @@ export default function ServicesPage() {
 
   return (
     <>
-      <PageTransition />
       <CustomCursor />
       <main className="main" data-barba="container" data-barba-namespace="services">
         <div className="fixed-background dark"><div className="texture" /></div>

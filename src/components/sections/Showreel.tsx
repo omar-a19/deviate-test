@@ -120,7 +120,6 @@ export default function ShowreelPlayer({
     };
   }, [activated, playing, hover]);
 
-  // Split chars function matching HTML structure
   const splitChars = (text: string) => {
     return text.split('').map((char, charIdx) => (
       <div key={charIdx} style={{ position: 'relative', display: 'inline-block' }} className="single-char">
@@ -159,8 +158,6 @@ export default function ShowreelPlayer({
           <iframe
             ref={iframeRef}
             src={`https://player.vimeo.com/video/${vimeoId}?api=1&background=1&autoplay=0&loop=0&muted=0`}
-            width="640"
-            height="360"
             frameBorder="0"
             allowFullScreen
             allow="autoplay; encrypted-media"

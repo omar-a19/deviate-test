@@ -980,7 +980,7 @@
  .home-header h1.mobile {
     display: none;
     white-space: nowrap;
-    font-size: 33vw;
+    font-size: 10vw;
  }
  
  .home-header > .single-vimeo-background {

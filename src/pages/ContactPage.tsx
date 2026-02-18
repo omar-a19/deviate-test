@@ -2,7 +2,6 @@ import { useLocomotiveScroll } from '../hooks/useLocomotiveScroll';
 import { useState } from 'react';
 import Navigation from '../components/layout/Navigation';
 import Footer from '../components/layout/Footer';
-import PageTransition from '../components/Pagetransition';
 import CustomCursor from '../components/ui/CustomCursor';
 import { SITE } from '../components/data/siteData';
 import { splitChars } from '../components/ui/shared';
@@ -33,7 +32,6 @@ export default function ContactPage() {
 
   return (
     <>
-      <PageTransition />
       <CustomCursor />
       <main className="main" data-barba="container" data-barba-namespace="contact">
         <div className="fixed-background dark"><div className="texture" /></div>
@@ -45,7 +43,6 @@ export default function ContactPage() {
             className="section contact-header"
             data-theme-section="dark"
             data-scroll-section=""
-            style={{ minHeight: '60vh', display: 'flex', alignItems: 'flex-end', position: 'relative', overflow: 'hidden' }}
           >
             <div className="fixed-background dark"><div className="texture" /></div>
             <div className="overlay a-shape-pattern" />
@@ -119,11 +116,12 @@ export default function ContactPage() {
             <div className="container">
               <div className="row split">
                 <div className="col">
-                  <h3>
+                  <h4>
                     <span data-cursor-gif-target="file://deviate-2">
                       Start a conversation
                     </span>
-                  </h3>
+                  </h4>
+                  
                 </div>
                 <div className="col">
                   {submitted ? (
@@ -234,3 +232,84 @@ const inputStyle: React.CSSProperties = {
   transition: 'border-color 0.2s',
   outline: 'none',
 };
+
+
+
+
+
+// const handleChange = (
+//   e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+// ) => {
+//   const { name, value } = e.target;
+
+//   if (name === 'phone') {
+//     setForm(prev => ({
+//       ...prev,
+//       phone: formatEgyptPhone(value),
+//     }));
+//     return;
+//   }
+
+//   setForm(prev => ({ ...prev, [name]: value }));
+// };
+
+// const formatEgyptPhone = (value: string) => {
+//   // keep digits only
+//   let digits = value.replace(/\D/g, '');
+
+//   // remove leading 20 if user types it
+//   if (digits.startsWith('20')) digits = digits.slice(2);
+
+//   // must start with 1 (Egypt mobile)
+//   if (!digits.startsWith('1')) return digits;
+
+//   // limit length
+//   digits = digits.slice(0, 10);
+
+//   // format: +20 1XX XXX XXXX
+//   const parts = digits.match(/^(\d{1})(\d{0,2})(\d{0,3})(\d{0,4})$/);
+//   if (!parts) return digits;
+
+//   return `+20 ${parts[1]}${parts[2]} ${parts[3]} ${parts[4]}`.trim();
+// };
+
+// const isValidEgyptPhone = (value: string) => {
+//   return /^(\+20\s?1\d{2}\s?\d{3}\s?\d{4})$/.test(value);
+// };
+
+
+{/* <div>
+  <label style={labelStyle}>Phone</label>
+  <input
+    type="tel"
+    name="phone"
+    value={form.phone}
+    onChange={handleChange}
+    placeholder="+20 1XX XXX XXXX"
+    style={inputStyle}
+  />
+</div> */}
+
+// const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+//   e.preventDefault();
+
+//   try {
+//     const response = await fetch('https://formspree.io/f/mqedleyy', {
+//       method: 'POST',
+//       headers: {
+//         Accept: 'application/json',
+//       },
+//       body: new FormData(e.currentTarget),
+//     });
+
+//     if (response.ok) {
+//       setSubmitted(true);
+//       setForm({ name: '', company: '', email: '', message: '' });
+//     } else {
+//       alert('Failed to send message');
+//     }
+//   } catch (error) {
+//     console.error(error);
+//     alert('Network error. Try again later.');
+//   }
+// };

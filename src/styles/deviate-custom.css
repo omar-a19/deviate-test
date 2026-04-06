@@ -185,6 +185,129 @@ input:focus, textarea:focus {
   padding-top: calc(var(--section-padding) * 0.5);
 }
 
+.section-services-grid {
+  padding-top: 0;
+}
+
+/* Intro Section Layout */
+.services-intro-row {
+  margin-bottom: var(--section-padding);
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--col-padding);
+}
+
+.intro-title-col {
+  flex: 0 0 100%;
+}
+
+.intro-content-col {
+  flex: 1 1 0%;
+  display: flex;
+  flex-direction: column;
+  gap: var(--row-padding);
+}
+
+.services-btn-row {
+  margin-top: 1rem;
+}
+
+/* Grid Layout */
+.services-grid-wrapper {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0 var(--col-padding);
+}
+
+.service-item-col {
+  padding-bottom: calc(var(--section-padding) * 0.75);
+}
+
+.service-item-inner {
+  border-top: 1px solid var(--color-border, rgba(255,255,255,0.1));
+  padding-top: calc(var(--section-padding) * 0.5);
+  height: 100%;
+}
+
+/* Typography */
+.service-number {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--color-primary, #DEA3EB);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  margin-bottom: 1rem;
+}
+
+.service-title {
+  margin-bottom: 1rem;
+  font-weight: 700 !important;
+  font-size: 1.5rem;
+}
+
+.service-description {
+  font-size: 0.95rem;
+  opacity: 0.7;
+  max-width: 24em;
+  line-height: 1.6;
+  color: #fff;
+}
+
+/* Responsive Breakpoints */
+
+/* Desktop + */
+@media (min-width: 1025px) {
+  .intro-title-col {
+    flex: 0 0 33.33%;
+  }
+  .intro-content-col {
+    flex: 0 0 66.66%;
+  }
+}
+
+/* Tablet */
+@media (max-width: 1024px) {
+  .services-grid-wrapper {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .service-title {
+    font-size: 1.25rem;
+  }
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+  .services-grid-wrapper {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+
+  .services-intro-row {
+    margin-bottom: 4rem;
+  }
+
+  .intro-title-col h3 {
+    font-size: 2rem;
+  }
+
+  .intro-content-col h4 {
+    font-size: 1.2rem;
+    line-height: 1.4;
+  }
+
+  .service-item-col {
+    padding-bottom: 3rem;
+  }
+
+  .service-item-inner {
+    padding-top: 2rem;
+  }
+
+  .service-description {
+    max-width: 100%;
+  }
+}
 /* ── Work grid (Work page) ───────────────────────────────────── */
 .work-grid .row {
   display: flex;

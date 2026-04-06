@@ -41,38 +41,20 @@ export default function ServicesSection() {
         </div>
 
         {/* Services grid */}
-        <div
-          className="row"
-          style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(3, 1fr)',
-            gap: '0 var(--col-padding)',
-          }}
-        >
+        <div className="services-grid-wrapper">
           {SERVICES.map((service, i) => (
             <div
               key={i}
-              className="col section-services-grid"
+              className="service-item-col"
               data-scroll=""
               data-scroll-speed={i % 2 === 0 ? '0' : '1'}
-              style={{ paddingBottom: 'calc(var(--section-padding) * 0.75)' }}
             >
-              <div style={{
-                borderTop: '1px solid var(--color-border, rgba(255,255,255,0.12))',
-                paddingTop: 'calc(var(--section-padding) * 0.5)',
-              }}>
-                <div style={{
-                  fontSize: '0.7em',
-                  fontWeight: 600,
-                  color: '#DEA3EB',
-                  letterSpacing: '0.08em',
-                  textTransform: 'uppercase',
-                  marginBottom: '0.75em',
-                }}>
+              <div className="service-item-inner">
+                <div className="service-number">
                   {String(i + 1).padStart(2, '0')}
                 </div>
-                <h4 style={{ marginBottom: '0.75em', fontWeight: 700 }}>{service.title}</h4>
-                <p style={{ fontSize: '0.9em', opacity: 0.7, maxWidth: '22em', lineHeight: 1.6 }}>
+                <h4 className="service-title">{service.title}</h4>
+                <p className="service-description">
                   {service.description}
                 </p>
               </div>

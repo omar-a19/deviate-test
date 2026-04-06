@@ -181,5 +181,5 @@ export const SITE = {
   email:       'hello@deviate.agency',
   instagram:   'https://www.instagram.com/',
   linkedin:    'https://www.linkedin.com/',
-  vimeoId:     '883255612',
+  vimeoId:     '1180372836',
 } as const;

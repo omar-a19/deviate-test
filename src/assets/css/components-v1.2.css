@@ -160,6 +160,7 @@
     background: var(--color-dark);
     transform: translateZ(0);
     isolation: isolate;
+    object-fit: cover;
     pointer-events: none;
     border-radius: 0 0 calc(var(--border-radius) * 1.5) calc(var(--border-radius) * 1.5);
     border-radius: calc(var(--border-radius) * 1.5);
@@ -169,11 +170,13 @@
     width: 100vw;
     height: calc(var(--aspect-ratio-h)/var(--aspect-ratio-w)*(var(--parent-height) * 1vw));
     min-height: calc(var(--parent-height) * 1vh);
-    min-width: calc(var(--aspect-ratio-w)/var(--aspect-ratio-h)*(var(--parent-height) * 1vh));
+    min-width: calc(100vh * (var(--aspect-ratio-w) / var(--aspect-ratio-h)));
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+    object-fit: cover;
+     pointer-events: none;
  }
  
  /* Placeholder */
@@ -230,7 +233,6 @@
        display: block;
     }
  
-    /* Edited for mobile 22 FEB 2023 */
  
     .home-header .shape-polygon {
        display: none !important;

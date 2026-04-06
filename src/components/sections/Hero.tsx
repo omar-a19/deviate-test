@@ -1,25 +1,47 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import Player from "@vimeo/player";
 
 export default function Hero() {
+  const desktopVideoId = "1180372836";
+  const mobileVideoId = "1180374943";
+
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 1024);
+    };
+
+    window.addEventListener("resize", handleResize);
+    handleResize(); // Set initial value
+
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
   useEffect(() => {
     const iframe1 = document.querySelector(
       "#vimeo-background-index-custom-1 iframe"
-    );
+    ) as HTMLIFrameElement;
     const iframe2 = document.querySelector(
       "#vimeo-background-index-custom-2 iframe"
-    );
+    ) as HTMLIFrameElement;
+
+    const videoSrc = isMobile
+      ? `https://player.vimeo.com/video/${mobileVideoId}?background=1&autoplay=1&loop=1&autopause=0&muted=1`
+      : `https://player.vimeo.com/video/${desktopVideoId}?background=1&autoplay=1&loop=1&autopause=0&muted=1`;
 
     if (iframe1) {
-      const player1 = new Player(iframe1 as HTMLIFrameElement);
+      iframe1.src = videoSrc;
+      const player1 = new Player(iframe1);
       player1.setVolume(0);
     }
 
-    if (iframe2) {
-      const player2 = new Player(iframe2 as HTMLIFrameElement);
+    if (iframe2 && !isMobile) { // Only load second video on desktop
+      iframe2.src = videoSrc;
+      const player2 = new Player(iframe2);
       player2.setVolume(0);
     }
-  }, []);
+  }, [isMobile]);
 
   const splitChars = (text: string) => {
     return text.split(" ").map((word, wordIdx) => (
@@ -73,28 +95,28 @@ export default function Hero() {
         data-vimeo-status-muted="true"
       >
         <iframe
-          src="https://player.vimeo.com/video/883255612?background=1&autoplay=1&loop=1&autopause=0&muted=1"
           frameBorder="0"
           allow="autoplay; encrypted-media"
           allowFullScreen
           onLoad={(e) => {
-            const el = (e.target as HTMLIFrameElement).closest('[data-vimeo-status-loaded]') as HTMLElement;
-            if (el) { el.dataset.vimeoStatusActivated = 'true'; el.dataset.vimeoStatusLoaded = 'true'; }
+            const el = (e.target as HTMLIFrameElement).closest(
+              '[data-vimeo-status-loaded]'
+            ) as HTMLElement;
+            if (el) {
+              el.dataset.vimeoStatusActivated = 'true';
+              el.dataset.vimeoStatusLoaded = 'true';
+            }
           }}
         />
 
-        <picture className="overlay vimeo-overlay-placeholder placeholder-desktop">
-          <source
-            type="image/webp"
-            srcSet="/bg1.png"
-          />
-          <img
-            src="/bg2.png"
-            alt=""
-            width="1920"
-            height="1080"
-          />
-        </picture>
+        {/* <picture className="overlay vimeo-overlay-placeholder placeholder-desktop">
+          <source type="image/webp" srcSet="/placeholder-desktop.webp" />
+          <img src="/placeholder-desktop.png" alt="" width="1920" height="1080" />
+        </picture> */}
+        {/* <picture className="overlay vimeo-overlay-placeholder placeholder-mobile">
+          <source type="image/webp" srcSet="/placeholder-mobile.webp" />
+          <img src="/placeholder-mobile.png" alt="" width="1920" height="1080" />
+        </picture> */}
       </div>
 
       <div className="overlay overlay-dark"></div>
@@ -104,7 +126,8 @@ export default function Hero() {
         <div className="row">
           <div className="col">
             <h1 className="split-chars animate-h1 desktop">
-              {splitChars("OFF THE NORM.")}<br/>
+              {splitChars("OFF THE NORM.")}
+              <br />
               {splitChars("#DEVIATED")}
             </h1>
             <h1 className="split-chars animate-h1 mobile">
@@ -128,43 +151,41 @@ export default function Hero() {
             data-vimeo-status-muted="true"
           >
             <iframe
-              src="https://player.vimeo.com/video/883255612?background=1&autoplay=1&loop=1&autopause=0&muted=1"
               frameBorder="0"
               allow="autoplay; encrypted-media"
               allowFullScreen
               onLoad={(e) => {
-                const el = (e.target as HTMLIFrameElement).closest('[data-vimeo-status-loaded]') as HTMLElement;
-                if (el) { el.dataset.vimeoStatusActivated = 'true'; el.dataset.vimeoStatusLoaded = 'true'; }
+                const el = (e.target as HTMLIFrameElement).closest(
+                  '[data-vimeo-status-loaded]'
+                ) as HTMLElement;
+                if (el) {
+                  el.dataset.vimeoStatusActivated = 'true';
+                  el.dataset.vimeoStatusLoaded = 'true';
+                }
               }}
             />
 
-            <picture className="overlay vimeo-overlay-placeholder placeholder-desktop">
-              <source
-                type="image/webp"
-                srcSet="/bg1.png"
-              />
-              <img
-                src="/bg1.png"
-                alt=""
-                width="1920"
-                height="1080"
-              />
-            </picture>
+            {/* <picture className="overlay vimeo-overlay-placeholder placeholder-desktop">
+              <source type="image/webp" srcSet="/placeholder-desktop.webp" />
+              <img src="/placeholder-desktop.png" alt="" width="1920" height="1080" />
+            </picture> */}
           </div>
           <div className="overlay overlay-dark"></div>
           <div className="container">
-        <div className="row">
-          <div className="col">
-            <h1 className="split-chars animate-h1 desktop">
-            {splitChars("OFF THE NORM.")}<br/>
-            {splitChars("#DEVIATED")}
-            </h1>
-            <h1 className="split-chars animate-h1 mobile">
-              {splitChars("DEVIATE")}
-            </h1>
+            <div className="row">
+              <div className="col">
+                <h1 className="split-chars animate-h1 desktop">
+                  {splitChars("OFF THE NORM.")}
+                  <br />
+                  {splitChars("#DEVIATED")}
+                </h1>
+                <h1 className="split-chars animate-h1 mobile">
+                  {splitChars("DEVIATE")}
+                </h1>
+              </div>
+            </div>
           </div>
         </div>
-      </div>        </div>
       </div>
 
       {/* ================= SCROLL OVERLAY ================= */}
